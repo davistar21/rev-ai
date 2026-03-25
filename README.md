@@ -1,36 +1,43 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# RevAI
 
-## Getting Started
+**RevAI** is an AI-powered revenue intelligence platform built for B2B merchants. By natively analyzing raw transaction logs sourced directly from authentic APIs (like Interswitch), it extracts financial forecasts, aggregates success velocity, and highlights statistical anomalies automatically using Groq Llama 3 models.
 
-First, run the development server:
+It serves dual purposes:
+1. **Interactive Dashboard**: A highly polished, client-facing dashboard utilizing the 'Liquid Glass' UI architectural design pattern.
+2. **Standalone REST APIs**: Highly extensive endpoints strictly authenticated for headless B2B consumption by other enterprise engineering teams.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Tech Stack
+- **Framework**: Next.js 16 (App Router)
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS V4 + custom Liquid Glass primitives
+- **Database**: SQLite (better-sqlite3) paired with Drizzle ORM
+- **AI / Inference**: Groq SDK natively invoking `llama-3.1-8b-instant` for deterministic JSON structure handling.
+- **Charts**: Recharts
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Setup & Execution
+1. Clone the repository and install dependencies:
+   ```bash
+   npm install
+   ```
+2. Apply the Drizzle Migration schemas to construct the local `sqlite.db`:
+   ```bash
+   npx drizzle-kit push
+   ```
+3. Set up the Environment Variables targeting your Groq Inference endpoint:
+   Create a `.env.local` file at the root:
+   ```env
+   GROQ_API_KEY=your_groq_api_key_here
+   ```
+4. Run the development server natively:
+   ```bash
+   npm run dev
+   ```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Workflow / Hackathon Demo Script
+1. View the **Landing Page** at `http://localhost:3000`. Showcases the freemium tiering and the feature sets.
+2. Navigate to the **Dashboard**. (Notice empty mock states).
+3. Click "Sync" to hydrate `sqlite.db` with randomized historical mock data conforming cleanly to Interswitch integration interfaces.
+4. Interact with the two primary Intelligence triggers: "Generate AI Insights" or "Scan Anomalies". Notice structural UI updates natively responding to LLM streams.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## API Documentation
+Refer to `/docs/api.md` for cURL examples on interacting directly with the standalone `X-API-Key` secured endpoints. To replace the mock Interswitch logic, integrate production keys natively inside `/lib/hooks/useSyncTransactions.ts`.

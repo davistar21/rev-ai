@@ -1,32 +1,96 @@
-You are an expert full-stack TypeScript engineer specializing in premium fintech dashboards and API platforms.
+# RevAI Project Overview & Phase Breakdown
 
 **Project Name**: RevAI  
-**Core Description**: RevAI is an AI-powered revenue intelligence platform and standalone API that transforms raw Interswitch transaction data into actionable insights. It pulls transaction history, volumes, success rates and patterns, then delivers revenue forecasting, anomaly detection, trend analysis, predictive cash flow, and optimization tips. It serves merchants, fintechs, agrotechs, law firms and any transaction-heavy business via both a stunning merchant dashboard and clean RESTful API endpoints.
+**Tagline**: AI-Powered Revenue Intelligence API & Dashboard — Turning Interswitch transaction data into actionable business insights for African merchants, fintechs, agrotechs, law firms, and transaction-heavy businesses.
 
-**Strict Tech Stack**:
+**Hackathon**: Interswitch x Enyata Buildathon 2026  
+**Goal**: Build a standalone API + merchant dashboard that pulls transaction history from Interswitch's Transaction Search APIs, applies lightweight AI for revenue forecasting, anomaly detection, trend analysis, and cash flow predictions — all while delivering a premium Liquid Glass UI experience.
 
-- Next.js 16 (App Router) + TypeScript
-- Tailwind CSS + shadcn/ui
-- Liquid Glass design principles (frosted glass, heavy backdrop-blur, translucency, depth, vibrant accents) — immediately read and strictly follow `liquid-glass-principles.md`
-- Drizzle ORM + better-sqlite3 (for caching transactions and insights)
-- Rich data visualizations with Recharts (multiple interactive charts on dashboard)
-- Interswitch APIs (especially Transaction Search — Quick, Reference, Bulk, status queries) — immediately read and follow `interswitch-api-docs.md` for OAuth flow, endpoints, auth headers and payloads
+**Core Value Proposition**
 
-**Exact Folder Structure Goal**:
+- Solves real pain for SMEs/informal businesses: blind revenue tracking, hidden leakage (fraud/churn), poor forecasting.
+- Positions as extensible infrastructure: other fintechs/agrotechs/law firms integrate the API to add revenue smarts on top of their own transaction flows.
+- Hackathon focus: Deep Interswitch integration + beautiful demo-ready UI + simulated data for speed.
 
-- `/app` (dashboard page + API routes)
-- `/components/ui/glass` (custom Liquid Glass components: GlassCard, GlassButton, GlassContainer, etc.)
-- `/lib` (utils, drizzle config, interswitch client)
-- `/db` (schema, migrations)
-- `/api/revai` (standalone API endpoints: /analyze, /forecast, /anomalies, /insights)
+## Tech Stack (Current & Locked)
 
-**First Phase Instructions** (do only this now):
+- Framework: Next.js 16 (App Router) + TypeScript
+- Styling/UI: Tailwind CSS + shadcn/ui + custom Liquid Glass components (frosted glass, heavy blur, translucency, depth, vibrant accents)
+- Database: SQLite + Drizzle ORM (better-sqlite3 driver)
+- Visualizations: Recharts (interactive charts: line, bar, pie, etc.)
+- Interswitch Integration: Transaction Search APIs (Quick Search, Reference Search) — **fully mocked for hackathon**
+- AI/Analytics: Lightweight rule-based + stats (Pandas-like in TS or simple libs; future: scikit-learn style or lightweight ML)
+- API Exposure: Next.js API routes (standalone endpoints: /analyze, /forecast, /anomalies, /insights)
+- Hosting (demo): Vercel/Netlify
+- Design Principles: Liquid Glass (reference: liquid-glass-principles.md)
 
-1. Create a brand-new Next.js 16 project with App Router and TypeScript.
-2. Fully install and configure Tailwind + shadcn/ui.
-3. Build the complete Liquid Glass component library by studying `liquid-glass-principles.md`.
-4. Set up Drizzle ORM + SQLite with initial schema (users, raw_transactions, insights tables).
-5. Create the clean folder structure above.
-6. After finishing, output the full folder tree and stop. Wait for my confirmation before touching Interswitch integration or dashboard pages.
+## High-Level Architecture
 
-Think step-by-step, show every major command and file you create, use clean modern code, and prioritize beautiful, demo-ready Liquid Glass UI from the start. Begin now.
+- Frontend → Dashboard (Liquid Glass cards, Recharts viz, sync button)
+- Backend → API routes + Drizzle DB (cache raw tx + generated insights)
+- Data Flow → Mock Interswitch client → SQLite → AI processing → Insights API + UI
+- Future → Swap mock → real Interswitch OAuth + endpoints
+
+## Phases Breakdown (As of March 21, 2026)
+
+### Phase 0: Foundation (Completed / In Progress)
+
+- Set up Next.js 16 project (App Router, TS)
+- Install/configure Tailwind + shadcn/ui
+- Build Liquid Glass component library (GlassCard, GlassButton, GlassContainer, etc.) per liquid-glass-principles.md
+- Create clean folder structure: /app, /components/ui/glass, /lib, /db, /types, /api/revai
+
+### Phase 1: Types & Mock Data Layer (Current / Next)
+
+- Define TS interfaces for Interswitch-like transactions (/types/interswitch.ts)
+- Implement mock Interswitch client (/lib/interswitch.ts):
+  - getAccessToken() → fake token
+  - quickSearch(params) → 30–50 varied fake transactions (last 90 days, realistic amounts/statuses/patterns)
+  - referenceSearch(ref) → single fake tx
+- Set up Drizzle schema: users, raw_transactions (json data), insights (forecasts, anomalies)
+- Basic sync API route (/api/revai/sync) to fetch mock data → insert into DB
+
+### Phase 2: Dashboard & Visualization (Next)
+
+- Build main dashboard page (/app/dashboard/page.tsx)
+- Add "Sync Transactions" GlassButton → triggers sync route
+- Display aggregated stats: total revenue, success rate, anomalies count
+- Render Recharts:
+  - Line chart: revenue over time
+  - Bar chart: transactions by day/week
+  - Simple anomaly highlights
+- Use Liquid Glass for all cards, tables, charts containers
+
+### Phase 3: AI Insights Layer (Post-Dashboard)
+
+- Process raw_transactions → generate insights (e.g., simple moving averages, z-score anomalies, basic linear forecast)
+- Expose via API: /api/revai/insights (period-based)
+- Display in dashboard: AI-generated tips ("Revenue dip detected — possible churn", "Peak on Fridays — run promos")
+- Store insights in DB for persistence
+
+### Phase 4: Standalone API Polish & Demo Prep
+
+- Finalize clean REST endpoints (/api/revai/analyze, /forecast, etc.) with JSON responses
+- Add mock auth (API key or simple)
+- Create landing page + pricing mock (freemium tease)
+- README + public GitHub setup (contributions from team)
+- Demo script: Sync → viz → insights → explain extensibility
+
+### Future Phases (Post-Hackathon)
+
+- Swap mock → real Interswitch (OAuth token gen + live endpoints)
+- Advanced AI (time-series forecasting, clustering)
+- Webhooks for real-time updates
+- User auth (NextAuth or Clerk)
+- Deployment + monitoring
+
+## Success Criteria for Hackathon
+
+- Live hosted MVP (Vercel)
+- Public GitHub with commits from 2–4 team members
+- Deep mock/real Interswitch Transaction Search usage
+- Stunning Liquid Glass UI + interactive charts
+- Clear demo: "Connect → Sync transactions → See revenue intelligence"
+- Pitch revenue model (freemium/API billing) + ecosystem potential
+
+Last updated: March 21, 2026
