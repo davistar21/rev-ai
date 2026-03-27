@@ -10,23 +10,23 @@ export default function ApiDocsPage() {
     {
       method: "POST",
       path: "/api/revai/analyze",
-      description: "Generates an Executive AI Summary and Aggregation block parsing absolute 30-day velocity metrics natively into JSON.",
+      description: "Generates a structured visual intelligence payload bridging revenue data against recent statistical anomalies into Metric/Action objects.",
       payload: "{ \"period\": \"last-30-days\" }",
-      response: "{ \"success\": true, \"aggregation\": {...}, \"insights\": \"...\" }"
+      response: "{ \"success\": true, \"insights\": { \"summary\": \"...\", \"metrics\": [...], \"recommendations\": [...] } }"
     },
     {
       method: "POST",
       path: "/api/revai/anomalies",
-      description: "Triggers mathematical Z-Score detection layered with Llama 3 contextual severity explanations.",
+      description: "Triggers mathematical Z-Score detection layered with a chronological HUD timeline mapping.",
       payload: "{}",
-      response: "{ \"success\": true, \"analysis\": { \"explanation\": \"...\" } }"
+      response: "{ \"success\": true, \"analysis\": { \"explanation\": \"...\", \"timeline\": [...], \"mitigation_steps\": [...] } }"
     },
     {
       method: "POST",
       path: "/api/revai/credit-score",
       description: "Analyzes raw transactional frequency to evaluate Nano-Credit scoring paradigms between 0-100.",
       payload: "{}",
-      response: "{ \"success\": true, \"data\": { \"score\": 85, \"suggestedAmount\": \"₦50k - ₦150k\" } }"
+      response: "{ \"success\": true, \"data\": { \"score\": 85, \"suggestedAmount\": \"₦50k - ₦150k\", \"reasoning\": \"...\" } }"
     }
   ];
 
@@ -35,17 +35,21 @@ export default function ApiDocsPage() {
       <motion.div initial={{ y: -20, opacity: 0 }} animate={{ y: 0, opacity: 1 }}>
         <h1 className="text-3xl font-bold tracking-tight">API Documentation</h1>
         <p className="opacity-70 mt-1">Connect natively to the RevAI Headless Infrastructure.</p>
+        
+        <div className="mt-4 p-4 border border-emerald-500/20 bg-emerald-500/5 rounded-xl text-xs text-emerald-500/80 leading-relaxed">
+          <span className="font-bold">Resiliency Note:</span> This API implements a <strong>Serverless Fallback</strong>. If the SQLite filesystem is blocked on production hardware, endpoints automatically switch to high-fidelity mock datasets to preserve uptime.
+        </div>
       </motion.div>
 
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.1 }}>
-        <GlassCard depth={2} className="p-6 border-[var(--glass-border)] border text-sm">
-          <div className="flex items-center gap-3 mb-4 text-[var(--accent-primary)] font-semibold text-lg">
+        <GlassCard depth={2} className="p-6 border-glass-border border text-sm">
+          <div className="flex items-center gap-3 mb-4 text-accent-primary font-semibold text-lg">
             <Shield className="w-5 h-5" /> Edge Authentication
           </div>
-          <p className="opacity-80 mb-4 leading-relaxed bg-[var(--foreground)]/5 p-4 rounded-xl border border-[var(--glass-border)]">
+          <p className="opacity-80 mb-4 leading-relaxed bg-(--foreground)/5 p-4 rounded-xl border border-glass-border">
             Every standalone enterprise endpoint is protected via Edge Middleware interception. You must provide your authorized API key inside the HTTP Header array globally before querying inference engines.
           </p>
-          <div className="bg-black/50 dark:bg-black/80 rounded-xl p-4 font-mono text-xs border border-white/10 text-emerald-400 overflow-x-auto selection:bg-[var(--accent-primary)]/30">
+          <div className="bg-black/50 dark:bg-black/80 rounded-xl p-4 font-mono text-xs border border-white/10 text-emerald-400 overflow-x-auto selection:bg-(--accent-primary)/30">
             X-API-Key: revai-demo-key
           </div>
         </GlassCard>
@@ -54,10 +58,10 @@ export default function ApiDocsPage() {
       <div className="flex flex-col gap-6 mt-4">
         {endpoints.map((ep, i) => (
           <motion.div key={i} initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.2 + (i * 0.1) }}>
-            <GlassCard depth={1} className="overflow-hidden border border-[var(--glass-border)] transition-transform hover:-translate-y-1">
-              <div className="flex items-center justify-between bg-[var(--foreground)]/5 px-6 py-4 border-b border-[var(--glass-border)]">
+            <GlassCard depth={1} className="overflow-hidden border border-glass-border transition-transform hover:-translate-y-1">
+              <div className="flex items-center justify-between bg-(--foreground)/5 px-6 py-4 border-b border-glass-border">
                 <div className="flex gap-4 items-center">
-                  <span className="text-[10px] font-bold tracking-wider px-2 py-1 rounded bg-[var(--accent-primary)]/20 text-[var(--accent-primary)] uppercase">
+                  <span className="text-[10px] font-bold tracking-wider px-2 py-1 rounded bg-(--accent-primary)/20 text-accent-primary uppercase">
                     {ep.method}
                   </span>
                   <span className="font-mono text-sm tracking-tight opacity-90">{ep.path}</span>
