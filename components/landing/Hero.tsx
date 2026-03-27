@@ -34,9 +34,15 @@ export function Hero() {
         transition={{ ...springConfig, delay: 0.1 }}
         className="z-10 max-w-4xl mx-auto mt-16 leading-tight"
       >
-        <div className="inline-flex items-center gap-2 px-3 py-1 mb-8 text-sm font-medium text-[var(--accent-primary)] bg-[var(--accent-primary)]/10 border border-[var(--accent-primary)]/20 rounded-full">
-          <Sparkles className="w-4 h-4" />
-          <span>Interswitch x Enyata Buildathon 2026</span>
+        <div className="flex flex-wrap justify-center gap-3 mb-8">
+          <div className="inline-flex items-center gap-2 px-3 py-1 text-sm font-medium text-[var(--accent-primary)] bg-[var(--accent-primary)]/10 border border-[var(--accent-primary)]/20 rounded-full">
+            <Sparkles className="w-4 h-4" />
+            <span>Interswitch x Enyata Buildathon 2026</span>
+          </div>
+          <div className="inline-flex items-center gap-2 px-3 py-1 text-sm font-medium text-emerald-500 bg-emerald-500/10 border border-emerald-500/20 rounded-full">
+            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+            <span>CyberForce Open Source</span>
+          </div>
         </div>
         
         <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight mb-6 balanced">

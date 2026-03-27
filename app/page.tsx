@@ -2,10 +2,12 @@ import { GlassContainer } from "@/components/glass-ui/glass-container";
 import { Hero } from "@/components/landing/Hero";
 import { Features } from "@/components/landing/Features";
 import { PricingTease } from "@/components/landing/PricingTease";
+import { Atmospheric3D } from "@/components/glass-ui/atmospheric-3d";
 
 export default function Home() {
   return (
     <GlassContainer>
+      <Atmospheric3D />
       <Hero />
       <Features />
       <PricingTease />

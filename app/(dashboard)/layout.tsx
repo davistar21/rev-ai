@@ -7,7 +7,7 @@ import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { Chatbot } from "@/components/chatbot";
-// import { Atmospheric3D } from "@/components/glass-ui/atmospheric-3d";
+import { Atmospheric3D } from "@/components/glass-ui/atmospheric-3d";
 
 export default function DashboardLayout({
   children,
@@ -16,7 +16,7 @@ export default function DashboardLayout({
 }) {
   return (
     <ProtectedRoute>
-      {/* <Atmospheric3D /> */}
+      <Atmospheric3D />
       <Chatbot />
       <GlassContainer className="flex h-screen overflow-hidden">
         <SidebarProvider defaultOpen={true}>
