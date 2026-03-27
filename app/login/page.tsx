@@ -22,7 +22,7 @@ export default function LoginPage() {
     e.preventDefault();
     setIsLoading(true);
     setError(null);
-    
+
     // Slight artificial delay for UX feel
     await new Promise((r) => setTimeout(r, 600));
 
@@ -37,22 +37,34 @@ export default function LoginPage() {
   };
 
   return (
-    <GlassContainer className="flex items-center justify-center min-h-screen">
-      <motion.div initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} className="w-full max-w-md p-4">
-        <GlassCard depth={2} className="p-8 border-[var(--glass-border)] flex flex-col items-center">
-          
+    <GlassContainer className="">
+      <motion.div
+        initial={{ y: 20, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        className="w-full p-4 flex items-center justify-center min-h-screen"
+      >
+        <GlassCard
+          depth={2}
+          className="p-8 border-[var(--glass-border)] flex flex-col items-center"
+        >
           <div className="w-16 h-16 bg-[var(--accent-primary)]/10 rounded-2xl flex items-center justify-center mb-6 border border-[var(--accent-primary)]/20 shadow-inner">
-             <Lock className="w-8 h-8 text-[var(--accent-primary)]" />
+            <Lock className="w-8 h-8 text-[var(--accent-primary)]" />
           </div>
 
-          <h1 className="text-2xl font-bold tracking-tight mb-2">Merchant Access</h1>
+          <h1 className="text-2xl font-bold tracking-tight mb-2">
+            Merchant Access
+          </h1>
           <p className="opacity-70 text-sm mb-8 text-center max-w-xs">
             Authenticate to access live Interswitch transactional streams.
           </p>
 
           <form onSubmit={handleLogin} className="w-full flex flex-col gap-4">
             {error && (
-              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="bg-rose-500/10 text-rose-500 border border-rose-500/20 p-3 rounded-lg text-sm text-center">
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="bg-rose-500/10 text-rose-500 border border-rose-500/20 p-3 rounded-lg text-sm text-center"
+              >
                 {error}
               </motion.div>
             )}
@@ -68,7 +80,7 @@ export default function LoginPage() {
                 placeholder="Business Email"
               />
             </div>
-            
+
             <div className="relative">
               <Lock className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 opacity-50" />
               <Input
@@ -81,7 +93,13 @@ export default function LoginPage() {
               />
             </div>
 
-            <GlassButton type="submit" variant="primary" size="lg" disabled={isLoading} className="w-full mt-2 h-11">
+            <GlassButton
+              type="submit"
+              variant="primary"
+              size="lg"
+              disabled={isLoading}
+              className="w-full mt-2 h-11"
+            >
               {isLoading ? (
                 <div className="w-5 h-5 rounded-full border-2 border-[var(--background)]/30 border-t-[var(--background)] animate-spin" />
               ) : (
@@ -89,7 +107,6 @@ export default function LoginPage() {
               )}
             </GlassButton>
           </form>
-
         </GlassCard>
       </motion.div>
     </GlassContainer>

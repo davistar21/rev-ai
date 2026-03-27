@@ -1,10 +1,11 @@
 import { NextResponse } from "next/server";
 import Groq from "groq-sdk";
-import { db } from "@/db";
+import { db, isDbAvailable } from "@/db";
 import { rawTransactions } from "@/db/schema";
 import { desc } from "drizzle-orm";
 import type { Transaction } from "@/types/interswitch";
 import { aggregateTx } from "@/utils/aggregateTransactions";
+import { simulatedCSVs } from "@/lib/mock-csv-data";
 
 export async function POST(req: Request) {
   try {
@@ -15,12 +16,17 @@ export async function POST(req: Request) {
     const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
     // Fetch transactions
-    const rows = db.select().from(rawTransactions).orderBy(desc(rawTransactions.fetchedAt)).limit(300).all();
-    if (rows.length === 0) {
-      return NextResponse.json({ error: "No data available." }, { status: 400 });
+    let transactions: Transaction[] = [];
+    try {
+      if (!isDbAvailable) throw new Error("Unavailable");
+      const rows = db.select().from(rawTransactions).orderBy(desc(rawTransactions.fetchedAt)).limit(300).all();
+      if (rows.length === 0) throw new Error("Empty");
+      transactions = rows.map((r: any) => r.transactionData);
+    } catch (dbError) {
+      console.warn("[Forecast] Fallback triggered");
+      transactions = simulatedCSVs[0].data;
     }
 
-    const transactions: Transaction[] = rows.map((r) => r.transactionData);
     const aggregation = aggregateTx(transactions);
 
     const prompt = `You are a financial forecasting AI. Analyze this data:

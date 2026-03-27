@@ -1,9 +1,10 @@
 import { NextResponse } from "next/server";
 import Groq from "groq-sdk";
-import { db } from "@/db";
+import { db, isDbAvailable } from "@/db";
 import { rawTransactions } from "@/db/schema";
 import { aggregateTx } from "@/utils/aggregateTransactions";
 import type { Transaction } from "@/types/interswitch";
+import { simulatedCSVs } from "@/lib/mock-csv-data";
 
 export async function POST(req: Request) {
   try {
@@ -22,8 +23,15 @@ export async function POST(req: Request) {
     if (bodyTransactions && bodyTransactions.length > 0) {
       transactions = bodyTransactions;
     } else {
-      const rows = db.select().from(rawTransactions).limit(500).all();
-      transactions = rows.map((r) => r.transactionData);
+      try {
+        if (!isDbAvailable) throw new Error("DB unavailable");
+        const rows = db.select().from(rawTransactions).limit(500).all();
+        if (rows.length === 0) throw new Error("No rows");
+        transactions = rows.map((r: any) => r.transactionData);
+      } catch (dbError) {
+        console.warn("[Credit] Fallback triggered");
+        transactions = simulatedCSVs[2].data; // Use Q1 financials mock
+      }
     }
 
     const aggregation = aggregateTx(transactions);

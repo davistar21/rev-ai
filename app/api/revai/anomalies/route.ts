@@ -1,10 +1,11 @@
 import { NextResponse } from "next/server";
 import Groq from "groq-sdk";
-import { db } from "@/db";
+import { db, isDbAvailable } from "@/db";
 import { rawTransactions } from "@/db/schema";
 import { desc } from "drizzle-orm";
 import type { Transaction } from "@/types/interswitch";
 import { aggregateTx, detectAnomalies } from "@/utils/aggregateTransactions";
+import { simulatedCSVs } from "@/lib/mock-csv-data";
 
 export async function POST(req: Request) {
   try {
@@ -24,11 +25,15 @@ export async function POST(req: Request) {
     if (bodyTransactions && bodyTransactions.length > 0) {
       transactions = bodyTransactions;
     } else {
-      const rows = db.select().from(rawTransactions).orderBy(desc(rawTransactions.fetchedAt)).limit(300).all();
-      if (rows.length === 0) {
-        return NextResponse.json({ error: "No data available." }, { status: 400 });
+      try {
+        if (!isDbAvailable) throw new Error("DB offline");
+        const rows = db.select().from(rawTransactions).orderBy(desc(rawTransactions.fetchedAt)).limit(300).all();
+        if (rows.length === 0) throw new Error("Empty DB");
+        transactions = rows.map((r: any) => r.transactionData);
+      } catch (dbError) {
+        console.warn("[Anomalies] DB Fallback Triggered");
+        transactions = simulatedCSVs[1].data; // Use the weekend surge mock data
       }
-      transactions = rows.map((r) => r.transactionData);
     }
     const aggregation = aggregateTx(transactions);
     
