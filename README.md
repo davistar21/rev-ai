@@ -1,43 +1,73 @@
-# RevAI
+# RevAI: Visual Revenue Intelligence Engine 🌌
 
-**RevAI** is an AI-powered revenue intelligence platform built for B2B merchants. By natively analyzing raw transaction logs sourced directly from authentic APIs (like Interswitch), it extracts financial forecasts, aggregates success velocity, and highlights statistical anomalies automatically using Groq Llama 3 models.
+**Team CyberForce** • *Enyata x Interswitch Buildathon 2026*
 
-It serves dual purposes:
-1. **Interactive Dashboard**: A highly polished, client-facing dashboard utilizing the 'Liquid Glass' UI architectural design pattern.
-2. **Standalone REST APIs**: Highly extensive endpoints strictly authenticated for headless B2B consumption by other enterprise engineering teams.
+**RevAI** is a cognitive revenue intelligence platform designed to transform raw, unstructured transaction logs (Interswitch CSV/API) into **Visual Intelligence**. We eliminate "text fatigue" for financial executives by mapping complex data onto interactive 3D timelines, predictive metric gauges, and high-fidelity action cards.
 
-## Tech Stack
-- **Framework**: Next.js 16 (App Router)
-- **Language**: TypeScript
-- **Styling**: Tailwind CSS V4 + custom Liquid Glass primitives
-- **Database**: SQLite (better-sqlite3) paired with Drizzle ORM
-- **AI / Inference**: Groq SDK natively invoking `llama-3.1-8b-instant` for deterministic JSON structure handling.
-- **Charts**: Recharts
+## 🚀 The Core Vision
+In the B2B world, raw data is unreadable. Traditional dashboards offer "more graphs" but "less clarity". RevAI solves this by using **Llama 3.1 Pattern Recognition** to extract:
+1.  **Success Velocity**: Real-time momentum calculated from inflow frequency.
+2.  **Anomaly Vector Maps**: Visualizing statistical drops and spikes on a 3D-styled timeline.
+3.  **Hardened Mitigations**: Transforming AI hallucinations into structured, actionable "Action Cards".
 
-## Setup & Execution
-1. Clone the repository and install dependencies:
-   ```bash
-   npm install
-   ```
-2. Apply the Drizzle Migration schemas to construct the local `sqlite.db`:
-   ```bash
-   npx drizzle-kit push
-   ```
-3. Set up the Environment Variables targeting your Groq Inference endpoint:
-   Create a `.env.local` file at the root:
-   ```env
-   GROQ_API_KEY=your_groq_api_key_here
-   ```
-4. Run the development server natively:
-   ```bash
-   npm run dev
-   ```
+---
 
-## Workflow / Hackathon Demo Script
-1. View the **Landing Page** at `http://localhost:3000`. Showcases the freemium tiering and the feature sets.
-2. Navigate to the **Dashboard**. (Notice empty mock states).
-3. Click "Sync" to hydrate `sqlite.db` with randomized historical mock data conforming cleanly to Interswitch integration interfaces.
-4. Interact with the two primary Intelligence triggers: "Generate AI Insights" or "Scan Anomalies". Notice structural UI updates natively responding to LLM streams.
+## 👥 Team CyberForce & Contributions
+As required by the Enyata Hackathon guidelines, here is the breakdown of our team's involvement:
 
-## API Documentation
-Refer to `/docs/api.md` for cURL examples on interacting directly with the standalone `X-API-Key` secured endpoints. To replace the mock Interswitch logic, integrate production keys natively inside `/lib/hooks/useSyncTransactions.ts`.
+### **Eyitayo Obembe** (Lead Engineer)
+- **Technical Architecture**: Designed the edge-ready SQLite + Drizzle ORM data layer.
+- **AI Orchestration**: Implemented the Groq SDK integration for structured JSON output handling.
+- **Frontend Systems**: Built the 'Liquid Glass' UI system and the interactive Anomaly Timeline components.
+- **API Strategy**: Developed the standalone REST API layer for headless B2B consumption.
+
+### **Noah Oyebola** (Product Design & Research)
+- **UI/UX Design**: Conducted extensive product research into financial dashboard cognitive load.
+- **Visual Design**: Designed the modular screen layouts and the 'Liquid Glass' design tokens.
+- **Product Strategy**: Defined the core "Visual Intelligence" pivot, moving the app away from text-heavy summaries to intuitive metrics.
+- **Market Research**: Analyzed Interswitch transaction patterns to refine the Anomaly Hunting models.
+
+---
+
+## 🛠️ The Tech Stack
+- **Framework**: Next.js 16 (App Router) with asynchronous Server Components.
+- **AI / Inference**: **Groq SDK** natively invoking `llama-3.1-8b-instant` for deterministic JSON intelligence.
+- **Design System**: **Liquid Glass** — A custom Tailwind CSS V4 architectural pattern for high-fidelity overlays.
+- **Database**: Local SQLite (better-sqlite3) + **Drizzle ORM** for persistent transactional history.
+- **Animations**: **Framer Motion** + **GSAP** for fluid, interactive visual transitions.
+
+---
+
+## ⚙️ Setup & Local Execution
+1.  **Clone & Install**:
+    ```bash
+    npm install
+    ```
+2.  **Hydrate Database**:
+    ```bash
+    npx drizzle-kit push
+    ```
+3.  **Environment Sync**:
+    Create a `.env.local` file:
+    ```env
+    GROQ_API_KEY=your_groq_api_key_here
+    ```
+4.  **Launch Web-App**:
+    ```bash
+    npm run dev
+    ```
+
+---
+
+## 🎭 The Demo Walkthrough
+1.  **Landing Page**: Explore the "Visual-First" value proposition and open-source orientation.
+2.  **Merchant Hub**: Use the **"Sync"** utility to hydrate the app with randomized transaction data conformant to Interswitch schemas.
+3.  **Executive Intelligence**: Click "Generate Insights" to see the engine transform logs into **Glowing Metric Gauges**.
+4.  **Fraud Engine**: Trigger the **"Anomaly Tracker"**. Hover over the **Horizontal Timeline Vector** to see specific day-by-day risk profiles and mitigation action cards.
+
+---
+
+## 🛡️ B2B Headless API
+RevAI is built to be consumed by other platforms. Refer to `/docs/api.md` for cURL examples of our `X-API-Key` secured endpoints.
+
+**RevAI is Open Source.** We believe transparency is the first step toward secure revenue intelligence. 🚀
