@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server";
-import { db } from "@/db";
+import { db, isDbAvailable } from "@/db";
 import { rawTransactions } from "@/db/schema";
 import { desc } from "drizzle-orm";
+import { simulatedCSVs } from "@/lib/mock-csv-data";
 
 export async function GET(req: Request) {
   try {
@@ -9,19 +10,27 @@ export async function GET(req: Request) {
     const limit = Number(searchParams.get("limit") || 100);
     const offset = Number(searchParams.get("offset") || 0);
 
-    const rows = db
-      .select()
-      .from(rawTransactions)
-      .orderBy(desc(rawTransactions.fetchedAt))
-      .limit(limit)
-      .offset(offset)
-      .all();
+    let transactions: any[] = [];
 
-    const transactions = rows.map((r) => ({
-      ...r.transactionData,
-      id: r.id,
-      fetchedAt: r.fetchedAt,
-    }));
+    try {
+      if (!isDbAvailable) throw new Error("DB offline");
+      const rows = db
+        .select()
+        .from(rawTransactions)
+        .orderBy(desc(rawTransactions.fetchedAt))
+        .limit(limit)
+        .offset(offset)
+        .all();
+      if (rows.length === 0) throw new Error("Empty");
+      transactions = rows.map((r: any) => ({
+        ...r.transactionData,
+        id: r.id,
+        fetchedAt: r.fetchedAt,
+      }));
+    } catch (dbError) {
+      console.warn("[Transactions] Fallback triggered");
+      transactions = simulatedCSVs[0].data.slice(offset, offset + limit);
+    }
 
     return NextResponse.json({
       success: true,

@@ -1,6 +1,6 @@
 "use server";
 
-import { db } from "@/db";
+import { db, isDbAvailable } from "@/db";
 import { users, rawTransactions } from "@/db/schema";
 import { mockInterswitch } from "@/lib/interswitch/mockClient";
 import { eq, sql } from "drizzle-orm";
@@ -16,6 +16,11 @@ import { eq, sql } from "drizzle-orm";
  * @returns `{ success, count }` indicating how many records were inserted.
  */
 export async function syncTransactions(userId: string) {
+  if (!isDbAvailable) {
+    console.warn("[Sync] Database unavailable — skipping sync (serverless mode)");
+    return { success: true, count: 0, fallback: true };
+  }
+
   // Ensure user exists
   const existing = db
     .select()
@@ -36,9 +41,6 @@ export async function syncTransactions(userId: string) {
 
   // Insert into DB with Deduplication
   for (const tx of response.data) {
-    // Note: since the mock client sometimes generates random IDs on each call, this
-    // might still insert if IDs change per call. Assuming stable IDs from upstream or realistic mock.
-    // We check via JSON extract:
     const exists = db
       .select({ id: rawTransactions.id })
       .from(rawTransactions)
