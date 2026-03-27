@@ -24,7 +24,7 @@ export function Chatbot() {
   const endOfMessagesRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
 
-  const { insightsText, anomaliesStr, creditScore } = useInsightsStore();
+  const { insights, anomalies, creditScore } = useInsightsStore();
   const txLength = useTransactionStore((s) => s.transactions.length);
 
   useEffect(() => {
@@ -53,8 +53,8 @@ export function Chatbot() {
           messages: apiMessages,
           context: {
             pathname,
-            insights: insightsText,
-            anomalies: anomaliesStr,
+            insights: insights,
+            anomalies: anomalies,
             creditScore: creditScore?.score,
             txLength,
           },
